@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Breathe API Docs</title>
+  <meta name="description"
+    content="Documentation for the free, public Breathe API. Live AQI, sensor readings, history, weather and seasonal normals for Jammu & Kashmir and Ladakh, with no key needed." />
+
+  <meta property="og:title" content="Breathe API Docs" />
+  <meta property="og:description"
+    content="Live AQI, sensor readings, history, weather and seasonal normals for Jammu & Kashmir and Ladakh. Free, public, no key needed." />
+  <meta property="og:image" content="https://docs.breatheoss.app/assets/images/social_preview.png" />
+  <meta property="og:url" content="https://docs.breatheoss.app/" />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Breathe API Docs" />
+  <meta name="twitter:description"
+    content="Live AQI, sensor readings, history, weather and seasonal normals for Jammu & Kashmir and Ladakh. Free, public, no key needed." />
+  <meta name="twitter:image" content="https://docs.breatheoss.app/assets/images/social_preview.png" />
+
+  <link rel="canonical" href="https://docs.breatheoss.app/" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Breathe API Docs",
+    "description": "Documentation for the free, public Breathe air quality API for Jammu & Kashmir and Ladakh.",
+    "url": "https://docs.breatheoss.app/",
+    "inLanguage": "en",
+    "about": {
+      "@type": "WebAPI",
+      "name": "Breathe API",
+      "url": "https://api.breatheoss.app",
+      "documentation": "https://docs.breatheoss.app/",
+      "isAccessibleForFree": true
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "BreatheOSS",
+      "url": "https://about.breatheoss.app",
+      "sameAs": ["https://github.com/breathe-OSS", "https://breatheoss.app", "https://blogs.breatheoss.app"]
+    }
+  }
+  </script>
+
+  <link rel="icon" href="assets/images/web-icon.webp" type="image/webp" />
+  <meta name="theme-color" content="#0f1216" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=2026111204" />
+  <script>
+    (function () {
+      var savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem('theme');
+      } catch (e) {
+        savedTheme = null;
+      }
+      if (!savedTheme) {
+        savedTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#overview" aria-label="Breathe API docs, back to top">
+        <img src="assets/images/logo.png" width="603" height="414" alt="" class="brand-logo" />
+        <span>Breathe</span>
+        <span class="brand-tag">API docs</span>
+      </a>
+      <div class="topbar-actions" style="margin-left: auto">
+        <button id="theme-toggle-btn" class="icon-btn theme-toggle-btn" title="Switch light or dark theme" aria-label="Switch light or dark theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"> <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/> </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /> </svg>
+        </button>
+        <a class="btn-filled topbar-cta" href="https://breatheoss.app" target="_blank" rel="noopener">Open the app</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="On this page">
+      <div class="toc-group">
+        <div class="toc-label">Start here</div>
+        <a href="#overview">Overview</a>
+        <a href="#getting-started">Getting started</a>
+        <a href="#concepts">Concepts</a>
+        <a href="#browsers">Browsers and limits</a>
+      </div>
+      <div class="toc-group">
+        <div class="toc-label">Endpoints</div>
+        <a href="#ep-zones"><code>/zones</code></a>
+        <a href="#ep-zone"><code>/aqi/zone/{id}</code></a>
+        <a href="#ep-zones-bulk"><code>/aqi/zones</code></a>
+        <a href="#ep-legacy"><code>/aqi/{id}</code></a>
+        <a href="#ep-sensors"><code>/sensor-info</code></a>
+        <a href="#ep-history"><code>/historical-data</code></a>
+        <a href="#ep-weather"><code>/weather-history</code></a>
+        <a href="#ep-seasonal"><code>/seasonal/{id}</code></a>
+        <a href="#ep-health"><code>/health</code></a>
+      </div>
+      <div class="toc-group">
+        <div class="toc-label">Reference</div>
+        <a href="#time-ranges">Time ranges and intervals</a>
+        <a href="#method">How the numbers are made</a>
+        <a href="#scales">AQI scales</a>
+        <a href="#errors">Errors</a>
+        <a href="#examples">Code examples</a>
+        <a href="#source">Source and help</a>
+      </div>
+    </nav>
+
+    <main id="main" class="doc">
+      <section class="doc-hero" id="overview">
+        <div class="chip-label">Free and public · No key needed</div>
+        <h1>The Breathe API</h1>
+        <p class="lead">
+          This is the same API that powers the Breathe apps on Android, iOS and the web, so everything you see in them (live AQI, every ground sensor, history going back to the first reading, weather and seasonal normals) comes from the endpoints on this page. It's free, there's no key or sign-up, and you're welcome to build whatever you want on top of it.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-filled btn-large" href="#getting-started">Get started</a>
+          <a class="btn-tonal btn-large" href="https://api.breatheoss.app/docs" target="_blank" rel="noopener">Interactive reference</a>
+        </div>
+        <div class="facts">
+          <div class="card fact">
+            <div class="fact-label">Base URL</div>
+            <div class="fact-value"><code>api.breatheoss.app</code></div>
+          </div>
+          <div class="card fact">
+            <div class="fact-label">Auth</div>
+            <div class="fact-value">None</div>
+          </div>
+          <div class="card fact">
+            <div class="fact-label">Format</div>
+            <div class="fact-value">JSON, CSV for history</div>
+          </div>
+          <div class="card fact">
+            <div class="fact-label">Refresh</div>
+            <div class="fact-value">Every 15 minutes</div>
+          </div>
+        </div>
+        <details class="expander toc-mobile">
+          <summary>On this page<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></summary>
+          <div class="expander-body"><div class="toc-body" id="toc-mobile-body"></div></div>
+        </details>
+      </section>
+
+      <section class="doc-section" id="getting-started">
+        <div class="eyebrow">Start here</div>
+        <h2>Getting started</h2>
+        <p>
+          Every endpoint is a plain <code>GET</code> on <code>https://api.breatheoss.app</code>, and nothing needs a header, a token or a body, so the quickest way to see what the API gives you is to open a URL in your browser or run it through <code>curl</code>. The request below asks for the current air in Srinagar.
+        </p>
+        <div class="code">
+          <div class="code-head">Request</div>
+          <pre><code>curl https://api.breatheoss.app/aqi/zone/srinagar</code></pre>
+        </div>
+        <p>
+          You'll get back one JSON object with the current AQI on both the US EPA and the Indian CPCB scales, the raw pollutant concentrations behind them, an hourly history of the last 24 hours, every sensor in the zone with its own reading and the current weather. The full shape is documented under <a href="#ep-zone"><code>/aqi/zone/{zone_id}</code></a>.
+        </p>
+        <p>
+          If you don't know the zone IDs yet, start with <a href="#ep-zones"><code>/zones</code></a>, which lists all of them along with their coordinates and whether they're backed by ground sensors or by satellite estimates. For anything more than a couple of zones, use <a href="#ep-zones-bulk"><code>/aqi/zones</code></a> instead of calling each one separately (it's one request instead of twenty five, and it's what our own apps do now).
+        </p>
+        <div class="note">
+          <p>The interactive reference at <a href="https://api.breatheoss.app/docs" target="_blank" rel="noopener">api.breatheoss.app/docs</a> is generated by FastAPI straight from the code, so it's always in sync with what's deployed, but it only knows the parameter names and not what the numbers mean. This page is the long version.</p>
+        </div>
+      </section>
+
+      <section class="doc-section" id="concepts">
+        <div class="eyebrow">Start here</div>
+        <h2>Concepts</h2>
+
+        <h3 id="concept-zones">Zones and sensors</h3>
+        <p>
+          The API is organised around zones, and a zone is a town or a city (Srinagar, Jammu, Leh, Kargil and so on) with an ID like <code>srinagar</code> or <code>jammu_city</code>. Some zones have one or more physical sensors inside them, and the API calls each of those sensors a node. A zone with six nodes reports the average of whichever ones are healthy at that moment, and every node is also listed on its own so you can see how much the air differs from one neighbourhood to the next (which, in a city like Srinagar, is quite a lot).
+        </p>
+        <p>
+          Zone IDs are meant to stay the same once a zone is live, but new zones do get added as people host sensors, so read the list from <code>/zones</code> instead of hardcoding it.
+        </p>
+
+        <h3 id="concept-sources">Ground sensors and satellite estimates</h3>
+        <p>
+          Every zone has a <code>provider</code>, which is either <code>airgradient</code> or <code>openmeteo</code>. An <code>airgradient</code> zone has real AirGradient sensors on rooftops and balconies measuring PM2.5 and PM10 every few minutes, and these are what we'd recommend trusting first. An <code>openmeteo</code> zone has no sensor yet, so its numbers come from the <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener">Open-Meteo air quality API</a>, which is a model built on satellite data and not a measurement of the street you're standing on.
+        </p>
+        <p>
+          The sensors only measure particulates, so the gases (NO<sub>2</sub>, SO<sub>2</sub>, CO and methane) always come from Open-Meteo, even in a sensor zone. That's why a sensor zone's <code>source</code> reads something like <code>airgradient (5/6 sensors) + openmeteo</code>.
+        </p>
+        <p>
+          If every sensor in a zone goes offline, or the readings look broken (more on that under <a href="#method-spikes">spike protection</a>), the zone quietly falls back to Open-Meteo for that refresh, its <code>source</code> changes to <code>openmeteo air pollution api</code> and <code>warning</code> says why. So <code>provider</code> tells you what a zone normally uses, and <code>source</code> tells you what this particular response actually used.
+        </p>
+
+        <h3 id="concept-indices">Two AQI scales</h3>
+        <p>
+          Every AQI value comes in two versions, <code>us_aqi</code> on the US EPA scale and <code>aqi</code> on the Indian CPCB scale. Both run from 0 to 500, but they cut the range up very differently, and the same air can easily read 141 on the US scale and 84 on the Indian one. The Breathe apps lean on the US scale because its PM2.5 bands are much stricter (and in our opinion, much closer to what the health research actually says), but both are always there and you can pick whichever suits you. The bands for each are listed under <a href="#scales">AQI scales</a>.
+        </p>
+        <div class="note">
+          <p>Keep in mind that <code>aqi</code> on its own means the Indian index everywhere in this API. That's a leftover from when it was the only one, and it can't change now without breaking older app releases.</p>
+        </div>
+
+        <h3 id="concept-time">Time and units</h3>
+        <p>
+          Timestamps are Unix seconds in UTC (<code>ts</code>, <code>timestamp_unix</code>), except for the calendar windows on the history endpoints, which are read as dates in IST because every zone sits in IST. Concentrations are in µg/m³, apart from CO and methane, which are in mg/m³. Temperature is in °C, humidity is relative humidity in percent and precipitation is in millimetres.
+        </p>
+
+        <h3 id="concept-freshness">How fresh the data is</h3>
+        <p>
+          A background job refreshes every zone every 15 minutes, which lines up with how often the sensors report and keeps us well inside Open-Meteo's rate limits. Live requests are served from that cache, so calling <code>/aqi/zone/srinagar</code> every few seconds won't give you anything newer, and polling more often than every 5 to 15 minutes is just wasted traffic. A sensor reading older than an hour is treated as the sensor being down, not as the current state of the air.
+        </p>
+        <p>
+          History, weather and seasonal responses are cached for longer (an hour for history and weather, six hours for seasonal), so the newest bucket in a history response can lag the live reading by up to an hour.
+        </p>
+      </section>
+
+      <section class="doc-section" id="browsers">
+        <div class="eyebrow">Start here</div>
+        <h2>Browsers and limits</h2>
+        <p>
+          The API sends CORS headers only for our own sites (<code>breatheoss.app</code>, <code>about.breatheoss.app</code> and <code>localhost</code> on ports 3000 and 8080 for development). Server side code, scripts, bots, notebooks and mobile apps aren't affected by this at all, but a web page on another domain calling the API straight from the browser will be blocked. If that's what you're building, put a small proxy in front of it (a Cloudflare Worker is enough) or tell us your domain and we'll look at adding it.
+        </p>
+        <p>
+          There's no rate limit or quota on our side right now. That said, the API runs on a single small Heroku dyno, so please cache what you can, use <code>/aqi/zones</code> instead of looping over zones, and don't hammer <code>/historical-data</code> with year long ranges at 15 minute intervals in a loop. If you're planning something heavy (a public dashboard with a lot of traffic, a research project pulling the full archive), drop us a message first, we're happy to help.
+        </p>
+        <p>
+          Responses over about 1 KB are gzipped if your client asks for it, which every browser and <code>curl --compressed</code> does.
+        </p>
+      </section>
+
+      <section class="doc-section" id="endpoints">
+        <div class="eyebrow">Endpoints</div>
+        <h2>Endpoints</h2>
+
+        <div class="endpoint" id="ep-zones">
+          <div class="endpoint-head"><span class="method">GET</span><span class="endpoint-path">/zones</span></div>
+          <h3>List zones</h3>
+          <p>Every zone the API knows about, with enough detail to put it on a map. It takes no parameters and changes only when a zone is added or moves from satellite to sensors.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>id</code></td><td><span class="type">string</span></td><td>The zone ID used by every other endpoint.</td></tr>
+                <tr><td><code>name</code></td><td><span class="type">string</span></td><td>Display name, like <code>Srinagar</code>.</td></tr>
+                <tr><td><code>provider</code></td><td><span class="type">string</span></td><td><code>airgradient</code> for ground sensors, <code>openmeteo</code> for satellite estimates.</td></tr>
+                <tr><td><code>lat</code>, <code>lon</code></td><td><span class="type">number</span></td><td>The point the zone is centred on, used for the Open-Meteo lookups.</td></tr>
+                <tr><td><code>zone_type</code></td><td><span class="type">string</span></td><td><code>hills</code>, <code>urban</code> or <code>industrial</code>. It's informational for now and doesn't change any calculation.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code">
+            <div class="code-head">Response (trimmed)</div>
+            <pre><code class="lang-json">{
+  "zones": [
+    {
+      "id": "jammu_city",
+      "name": "Jammu",
+      "provider": "airgradient",
+      "lat": 32.7169,
+      "lon": 74.8609,
+      "zone_type": "urban"
+    },
+    {
+      "id": "anantnag_city",
+      "name": "Anantnag",
+      "provider": "openmeteo",
+      "lat": 33.7295,
+      "lon": 75.15,
+      "zone_type": "hills"
+    }
+  ]
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="endpoint" id="ep-zone">
+          <div class="endpoint-head"><span class="method">GET</span><span class="endpoint-path">/aqi/zone/<var>{zone_id}</var></span></div>
+          <h3>Current air in one zone</h3>
+          <p>
+            This is the main endpoint, and it's what every Breathe app opens with. It returns the latest reading for a zone on both AQI scales, the concentrations behind it, the last 24 hours, every node in the zone and the current weather. An unknown <code>zone_id</code> returns <code>404</code>.
+          </p>
+          <h4>Top level</h4>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>zone_id</code></td><td><span class="type">string</span></td><td>The ID you asked for.</td></tr>
+                <tr><td><code>zone_name</code></td><td><span class="type">string</span></td><td>Display name.</td></tr>
+                <tr><td><code>source</code></td><td><span class="type">string</span></td><td>Where this response's numbers came from. <code>airgradient (5/6 sensors) + openmeteo</code> means five of six sensors were healthy, <code>airgradient + openmeteo</code> is a single sensor zone and <code>openmeteo air pollution api</code> means satellite estimates only (either by design or as a fallback).</td></tr>
+                <tr><td><code>timestamp_unix</code></td><td><span class="type">number</span></td><td>When the server built this reading, in Unix seconds with a fractional part.</td></tr>
+                <tr><td><code>coordinates</code></td><td><span class="type">object</span></td><td><code>{"lat", "lon"}</code> of the zone.</td></tr>
+                <tr><td><code>us_aqi</code></td><td><span class="type">integer</span></td><td>Current AQI on the US EPA scale.</td></tr>
+                <tr><td><code>us_main_pollutant</code></td><td><span class="type">string</span></td><td>The pollutant that set <code>us_aqi</code>, like <code>pm2_5</code>.</td></tr>
+                <tr><td><code>aqi</code></td><td><span class="type">integer</span></td><td>Current AQI on the Indian CPCB scale.</td></tr>
+                <tr><td><code>main_pollutant</code></td><td><span class="type">string</span></td><td>The pollutant that set <code>aqi</code>.</td></tr>
+                <tr><td><code>aqi_breakdown</code></td><td><span class="type">object</span></td><td>The Indian sub index for each pollutant (<code>pm2_5</code>, <code>pm10</code>, <code>no2</code>, <code>so2</code>, <code>co</code>). The largest of these is <code>aqi</code>.</td></tr>
+                <tr><td><code>concentrations_us_units</code></td><td><span class="type">object</span></td><td>The raw concentrations behind the index, keyed by pollutant, with <code>ch4</code> as well. Despite the name, these are in CPCB units (µg/m³, with CO and methane in mg/m³), so they line up with the Indian sub indices next to them. The name stuck around for the same reason as <code>aqi</code>.</td></tr>
+                <tr><td><code>averages_24h</code></td><td><span class="type">object</span></td><td>24 hour means of <code>pm2_5</code>, <code>pm10</code>, <code>temp</code> and <code>humidity</code>, plus the <code>aqi</code> and <code>us_aqi</code> worked out from those means. Satellite zones have no <code>temp</code> or <code>humidity</code> here.</td></tr>
+                <tr><td><code>history</code></td><td><span class="type">array</span></td><td>Hourly points for the last 24 hours, oldest first. See below.</td></tr>
+                <tr><td><code>nodes</code></td><td><span class="type">object | null</span></td><td>Every configured sensor in the zone, keyed by its name, offline ones included. <code>null</code> for satellite zones.</td></tr>
+                <tr><td><code>weather</code></td><td><span class="type">object</span></td><td>Current weather and a short advisory. See below.</td></tr>
+                <tr><td><code>warning</code></td><td><span class="type">string | null</span></td><td>A human readable note when something about this reading needs a caveat, like a sensor being offline or an unnaturally fast spike. Show it to your users if it's there. See <a href="#method-warnings">warnings</a>.</td></tr>
+                <tr><td><code>zone_applied</code></td><td><span class="type">string</span></td><td>The zone's <code>zone_type</code>, echoed back.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>History points</h4>
+          <p>Each item in <code>history</code> (and in each node's <code>history</code>) is one hour.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>ts</code></td><td><span class="type">integer</span></td><td>Start of the hour, Unix seconds.</td></tr>
+                <tr><td><code>pm2_5</code>, <code>pm10</code></td><td><span class="type">number</span></td><td>Mean concentration for the hour, µg/m³.</td></tr>
+                <tr><td><code>aqi</code>, <code>us_aqi</code></td><td><span class="type">integer</span></td><td>The index for that hour on each scale.</td></tr>
+                <tr><td><code>temp</code>, <code>humidity</code></td><td><span class="type">number</span></td><td>Sensor zones only.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>Nodes</h4>
+          <p>
+            Each value in <code>nodes</code> carries the same reading fields as the zone (<code>pm2_5</code>, <code>pm10</code>, <code>temp</code>, <code>humidity</code>, <code>aqi</code>, <code>us_aqi</code>), its own 24 hour <code>history</code> and a <code>status</code>. A node that isn't <code>active</code> has <code>null</code> readings, but its history is still filled in from what it reported before it dropped out. The statuses are explained under <a href="#method-statuses">node statuses</a>.
+          </p>
+
+          <h4>Weather</h4>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>condition</code></td><td><span class="type">string</span></td><td>One of <code>clear</code>, <code>cloudy</code>, <code>fog</code>, <code>smog</code>, <code>rain</code>, <code>snow</code> or <code>thunderstorm</code>. Fog with high PM2.5 is reported as <code>smog</code>.</td></tr>
+                <tr><td><code>weather_code</code></td><td><span class="type">integer</span></td><td>The raw <a href="https://open-meteo.com/en/docs#weather_variable_documentation" target="_blank" rel="noopener">WMO weather code</a> from Open-Meteo, if you want finer detail than <code>condition</code>.</td></tr>
+                <tr><td><code>precipitation</code></td><td><span class="type">number</span></td><td>Current precipitation, mm.</td></tr>
+                <tr><td><code>season</code></td><td><span class="type">string</span></td><td><code>winter</code> (Dec to Feb), <code>spring</code> (Mar, Apr), <code>summer</code> (May, Jun), <code>monsoon</code> (Jul to Sep) or <code>autumn</code> (Oct, Nov).</td></tr>
+                <tr><td><code>text</code></td><td><span class="type">string</span></td><td>One or two sentences on what the weather means for the air right now. Written for people, so it's fine to show as is.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <details class="expander">
+            <summary>Example response for Srinagar (trimmed)<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></summary>
+            <div class="expander-body">
+              <div class="code">
+                <div class="code-head">GET /aqi/zone/srinagar</div>
+                <pre><code class="lang-json">{
+  "zone_id": "srinagar",
+  "zone_name": "Srinagar",
+  "source": "airgradient (5/6 sensors) + openmeteo",
+  "timestamp_unix": 1794432223.32853,
+  "coordinates": { "lat": 34.0709, "lon": 74.8122 },
+  "averages_24h": {
+    "pm2_5": 84.9,
+    "pm10": 104.5,
+    "temp": 15.4,
+    "humidity": 59.6,
+    "aqi": 179,
+    "us_aqi": 171
+  },
+  "history": [
+    {
+      "ts": 1794427200,
+      "aqi": 189,
+      "us_aqi": 173,
+      "pm2_5": 87.06,
+      "pm10": 116.48,
+      "temp": 10.54,
+      "humidity": 72.6
+    },
+    {
+      "ts": 1794430800,
+      "aqi": 182,
+      "us_aqi": 172,
+      "pm2_5": 85.58,
+      "pm10": 114.14,
+      "temp": 10.16,
+      "humidity": 73.6
+    }
+  ],
+  "warning": null,
+  "nodes": {
+    "Kanipora": {
+      "pm2_5": 90.3,
+      "pm10": 120.2,
+      "temp": 9.4,
+      "humidity": 75.0,
+      "aqi": 200,
+      "us_aqi": 175,
+      "history": [],
+      "status": "active"
+    },
+    "Ahmadnagar": {
+      "pm2_5": null,
+      "pm10": null,
+      "temp": null,
+      "humidity": null,
+      "aqi": null,
+      "us_aqi": null,
+      "status": "stale",
+      "history": []
+    }
+  },
+  "weather": {
+    "condition": "smog",
+    "weather_code": 45,
+    "precipitation": 0.0,
+    "season": "autumn",
+    "text": "Cold, stagnant air is trapping smoke and particulates near the ground. Consider limiting outdoor activity."
+  },
+  "aqi": 182,
+  "us_aqi": 172,
+  "main_pollutant": "pm2_5",
+  "us_main_pollutant": "pm2_5",
+  "aqi_breakdown": { "pm2_5": 182, "pm10": 109, "no2": 22, "so2": 5, "co": 20 },
+  "concentrations_us_units": {
+    "pm2_5": 85.58,
+    "pm10": 114.14,
+    "ch4": 1.58,
+    "no2": 18.9,
+    "so2": 4.9,
+    "co": 0.49
+  },
+  "zone_applied": "urban"
+}</code></pre>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="endpoint" id="ep-zones-bulk">
+          <div class="endpoint-head"><span class="method">GET</span><span class="endpoint-path">/aqi/zones?ids=<var>{ids}</var></span></div>
+          <h3>Current air in many zones</h3>
+          <p>
+            The same payload as <a href="#ep-zone"><code>/aqi/zone/{zone_id}</code></a> for several zones at once, wrapped as <code>{"zones": [...]}</code>. The apps used to ask for every zone one by one, which came to about twenty five requests on every refresh, so if you're showing more than a couple of zones, this is the one to use.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Query</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>ids</code></td><td><span class="type">string, optional</span></td><td class="wrap">Comma separated zone IDs, like <code>srinagar,leh,jammu_city</code>. Leave it out to get every zone. Duplicates are dropped and the order you asked in is kept.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            If any ID in <code>ids</code> doesn't exist, the whole request fails with <code>404</code> and <code>detail</code> lists the unknown ones (<code>zone not found: nope</code>). A known zone that fails to load on the server is left out of the list instead of failing the request, so check which IDs came back if you need all of them.
+          </p>
+          <div class="code">
+            <div class="code-head">Request</div>
+            <pre><code>curl "https://api.breatheoss.app/aqi/zones?ids=srinagar,leh"</code></pre>
+          </div>
+        </div>
+
+        <div class="endpoint" id="ep-legacy">
+          <div class="endpoint-head"><span class="method">GET</span><span class="endpoint-path">/aqi/<var>{zone_id}</var></span></div>
+          <h3>Legacy zone paths</h3>
+          <p>
+            Every zone also has its own flat path (<code>/aqi/srinagar</code>, <code>/aqi/leh</code> and so on) that returns exactly the same thing as <code>/aqi/zone/{zone_id}</code>. Older app releases still call these, so they aren't going anywhere, but new code should use <code>/aqi/zone/{zone_id}</code>, which gives a clean <code>404</code> for an unknown zone.
+          </p>
+        </div>
+
+        <div class="endpoint" id="ep-sensors">
+          <div class="endpoint-head"><span class="method">GET</span><span class="endpoint-path">/sensor-info</span></div>
+          <h3>Sensor hardware</h3>
+          <p>
+            Details for every physical sensor in the network, as <code>{"sensors": [...]}</code>. This is what the maps in the apps use to place each sensor, and it's the place to look if you want to know who hosts what and since when.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>name</code></td><td><span class="type">string</span></td><td>The sensor's name, which is also its key in a zone's <code>nodes</code>.</td></tr>
+                <tr><td><code>zone</code></td><td><span class="type">string</span></td><td>The zone's display name (not its ID), like <code>Srinagar</code>.</td></tr>
+                <tr><td><code>location_id</code></td><td><span class="type">integer</span></td><td>The AirGradient location ID.</td></tr>
+                <tr><td><code>provider</code></td><td><span class="type">string</span></td><td>Hardware vendor, sometimes with a credit for whoever donated it.</td></tr>
+                <tr><td><code>model</code></td><td><span class="type">string</span></td><td>AirGradient model code, like <code>O-1PST</code>.</td></tr>
+                <tr><td><code>is_kit</code></td><td><span class="type">boolean</span></td><td>Whether it was assembled from a kit.</td></tr>
+                <tr><td><code>latitude</code>, <code>longitude</code></td><td><span class="type">number</span></td><td>Where the sensor actually is.</td></tr>
+                <tr><td><code>installation_date</code></td><td><span class="type">string</span></td><td>When it went up. This is free text written by hand, so the format varies (<code>Oct 4, 2025</code>, <code>23 Jul, 2026</code>). Parse it loosely or just display it.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="endpoint" id="ep-history">
+          <div class="endpoint-head"><span class="method">GET</span><span class="endpoint-path">/historical-data/<var>{location}</var>/<var>{time_range}</var>/<var>{interval}</var>/<var>{metrics}</var></span></div>
+          <h3>Historical readings</h3>
+          <p>
+            The full archive of ground sensor readings, averaged into buckets of whatever size you ask for. The response is streamed row by row, so even a long range doesn't blow up memory on either side, and it comes as JSON by default or as a CSV file with <code>?format=csv</code>.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>location</code></td><td class="wrap">A zone ID, a single sensor as <code>&lt;zone_id&gt;_&lt;sensor name&gt;</code> (like <code>srinagar_Kanipora</code>, URL encoded if the name has spaces or commas), or <code>all</code> for every zone and sensor at once.</td></tr>
+                <tr><td><code>time_range</code></td><td class="wrap">How far back to go, either rolling (<code>24h</code>, <code>7d</code>, <code>1mo</code>) or a fixed calendar window (<code>2026-10</code>, <code>2026-W42</code>). See <a href="#time-ranges">time ranges</a>.</td></tr>
+                <tr><td><code>interval</code></td><td class="wrap">Bucket size, like <code>15m</code>, <code>1h</code> or <code>1d</code>.</td></tr>
+                <tr><td><code>metrics</code></td><td class="wrap">Comma separated, any of <code>pm2.5</code>, <code>pm10</code>, <code>temp</code>, <code>humidity</code>. Unknown names are dropped, and if none are left you get <code>pm2.5,pm10</code>.</td></tr>
+                <tr><td><code>format</code> (query)</td><td class="wrap"><code>json</code> (default) or <code>csv</code>.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code">
+            <div class="code-head">Request</div>
+            <pre><code>curl "https://api.breatheoss.app/historical-data/jammu_city/6h/1h/pm2.5,pm10"</code></pre>
+          </div>
+          <div class="code">
+            <div class="code-head">Response (trimmed)</div>
+            <pre><code class="lang-json">{
+  "data": [
+    { "zone_id": "jammu_city", "ts": 1794409200, "pm2_5": 213.96, "pm10": 230.83 },
+    { "zone_id": "jammu_city", "ts": 1794412800, "pm2_5": 181.29, "pm10": 196.83 },
+    { "zone_id": "jammu_city", "ts": 1794430800, "pm2_5": 111.26, "pm10": 122.64 }
+  ],
+  "stats": {
+    "max_pm2_5": 213.96,
+    "min_pm2_5": 111.26,
+    "avg_pm2_5": 148.72,
+    "max_pm10": 230.83,
+    "min_pm10": 122.64,
+    "avg_pm10": 161.56
+  }
+}</code></pre>
+          </div>
+          <p>
+            Each row's <code>ts</code> is the start of its bucket. The metric keys come back as <code>pm2_5</code> (with an underscore) even though you ask for <code>pm2.5</code>. <code>stats</code> sits at the end of the document because it can only be worked out once every row has gone past, and it only covers PM2.5 and PM10 (it's an empty object if there were no rows). The CSV has a header row of <code>zone_id,ts</code> followed by the metrics, and it's sent as a download named <code>historical_&lt;location&gt;.csv</code>.
+          </p>
+          <p>
+            A few things that are worth knowing before you build on this:
+          </p>
+          <ul>
+            <li>Only sensor zones have archived history. A satellite zone returns <code>{"data": [], "stats": {}}</code> (its last 24 hours are still in <code>/aqi/zone/{zone_id}</code>, they just aren't archived).</li>
+            <li>An unknown <code>location</code> isn't an error either, it's an empty result, so check for that instead of waiting for a <code>404</code>.</li>
+            <li>For a zone with more than one sensor, the series is rebuilt from the individual sensors with a per sensor offset applied, so the line doesn't jump up or down whenever a sensor joins or drops out. This means a zone's history can differ slightly from a plain average of its sensors' histories, and that's on purpose.</li>
+            <li>Intervals that are a whole number of 15 minute steps (<code>15m</code>, <code>1h</code>, <code>1d</code>) are served from a pre-aggregated table and are fast. Anything finer, like <code>5m</code>, goes to the raw readings and is noticeably slower on long ranges.</li>
+            <li>With <code>all</code>, the rows for every zone and sensor at the same <code>ts</code> are next to each other, so group by <code>zone_id</code> on your side.</li>
+          </ul>
+        </div>
+
+        <div class="endpoint" id="ep-weather">
+          <div class="endpoint-head"><span class="method">GET</span><span class="endpoint-path">/weather-history/<var>{zone_id}</var>/<var>{time_range}</var>/<var>{interval}</var></span></div>
+          <h3>Weather history</h3>
+          <p>
+            Past weather for a zone, cut into the same buckets as <code>/historical-data</code> (as long as you pass the same <code>time_range</code> and <code>interval</code>), so you can line it up with a readings chart and answer things like "how much cleaner is the air on rainy days". This is what the weather filter on the history screen in the apps uses.
+          </p>
+          <div class="code">
+            <div class="code-head">GET /weather-history/srinagar/1d/6h</div>
+            <pre><code class="lang-json">{
+  "interval": 21600,
+  "anchor": 0,
+  "points": [
+    { "ts": 1794333600, "condition": "cloudy", "precipitation": 0.0 },
+    { "ts": 1794355200, "condition": "rain", "precipitation": 0.9 },
+    { "ts": 1794376800, "condition": "clear", "precipitation": 0.0 },
+    { "ts": 1794398400, "condition": "rain", "precipitation": 0.1 },
+    { "ts": 1794420000, "condition": "fog", "precipitation": 0.0 }
+  ],
+  "zone_id": "srinagar"
+}</code></pre>
+          </div>
+          <p>
+            <code>interval</code> is the bucket size in seconds. Buckets start at <code>anchor + n * interval</code>, where <code>anchor</code> is <code>0</code> for rolling ranges and the start of the window for calendar ones, which is how you match a weather point to a history row. <code>condition</code> uses the same values as the live <a href="#ep-zone">weather</a> object (except <code>smog</code>, which needs a PM2.5 reading), and <code>precipitation</code> is the total for the bucket in mm. An unknown zone returns <code>404</code>.
+          </p>
+        </div>
+
+        <div class="endpoint" id="ep-seasonal">
+          <div class="endpoint-head"><span class="method">GET</span><span class="endpoint-path">/seasonal/<var>{zone_id}</var></span></div>
+          <h3>Seasonal normals</h3>
+          <p>
+            What a typical month looks like in a zone, built from Open-Meteo reanalysis data going back to 2022 and refreshed every 30 days. It's twelve entries (one per calendar month) and it's useful for putting today in context, since 80 µg/m³ of PM2.5 means something very different in July than it does in January.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>current_month</code></td><td><span class="type">integer</span></td><td>1 to 12.</td></tr>
+                <tr><td><code>current_season</code></td><td><span class="type">string</span></td><td>Same values as the live weather <code>season</code>.</td></tr>
+                <tr><td><code>months[].month</code>, <code>name</code>, <code>season</code></td><td><span class="type">int, string</span></td><td>Which month this entry is.</td></tr>
+                <tr><td><code>months[].pm2_5</code>, <code>pm10</code></td><td><span class="type">number</span></td><td>Average concentration for that month, µg/m³, from reanalysis.</td></tr>
+                <tr><td><code>months[].aqi</code>, <code>us_aqi</code></td><td><span class="type">integer</span></td><td>Those averages on each AQI scale.</td></tr>
+                <tr><td><code>months[].precipitation</code></td><td><span class="type">number</span></td><td>Typical total for the month, mm.</td></tr>
+                <tr><td><code>months[].temp</code></td><td><span class="type">number</span></td><td>Average temperature, °C.</td></tr>
+                <tr><td><code>months[].sensor_pm2_5</code>, <code>sensor_pm10</code></td><td><span class="type">number, optional</span></td><td>Only present when our sensors logged at least 200 readings in that month. These are real measurements, kept next to the reanalysis values instead of blended into them, and they're often a lot higher in winter (the satellite model tends to underestimate wood and coal smoke at street level).</td></tr>
+                <tr><td><code>source</code></td><td><span class="type">string</span></td><td>Where the normals came from.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <details class="expander">
+            <summary>Example response for Srinagar (trimmed)<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></summary>
+            <div class="expander-body">
+              <div class="code">
+                <div class="code-head">GET /seasonal/srinagar</div>
+                <pre><code class="lang-json">{
+  "zone_id": "srinagar",
+  "zone_name": "Srinagar",
+  "current_month": 11,
+  "current_season": "autumn",
+  "months": [
+    {
+      "month": 1,
+      "name": "January",
+      "season": "winter",
+      "pm2_5": 70.8,
+      "pm10": 92.6,
+      "aqi": 131,
+      "us_aqi": 161,
+      "precipitation": 113.2,
+      "temp": -0.8,
+      "sensor_pm2_5": 95.5,
+      "sensor_pm10": 125.8
+    },
+    {
+      "month": 12,
+      "name": "December",
+      "season": "winter",
+      "pm2_5": 61.8,
+      "pm10": 78.7,
+      "aqi": 101,
+      "us_aqi": 155,
+      "precipitation": 84.7,
+      "temp": 1.6
+    }
+  ],
+  "source": "openmeteo reanalysis (2022-present)"
+}</code></pre>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="endpoint" id="ep-health">
+          <div class="endpoint-head"><span class="method">GET</span><span class="endpoint-path">/health</span></div>
+          <h3>Health check</h3>
+          <p>
+            Reports whether the database and the Redis cache are both reachable. It returns <code>200</code> with <code>"status": "ok"</code> when they are, and <code>503</code> with <code>"status": "degraded"</code> when either one is down (in which case the history, weather and seasonal endpoints will likely fail too, while live readings usually keep working).
+          </p>
+          <div class="code">
+            <div class="code-head">Response</div>
+            <pre><code class="lang-json">{ "status": "ok", "postgres": "ok", "redis": "ok" }</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="time-ranges">
+        <div class="eyebrow">Reference</div>
+        <h2>Time ranges and intervals</h2>
+        <p>
+          <code>/historical-data</code> and <code>/weather-history</code> take the same <code>time_range</code> and <code>interval</code> syntax. A rolling range ends now and is written as a number followed by a unit.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Unit</th><th>Meaning</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><code>m</code></td><td>minutes</td><td><code>15m</code></td></tr>
+              <tr><td><code>h</code></td><td>hours</td><td><code>6h</code></td></tr>
+              <tr><td><code>d</code></td><td>days</td><td><code>7d</code></td></tr>
+              <tr><td><code>w</code></td><td>weeks</td><td><code>2w</code></td></tr>
+              <tr><td><code>mo</code></td><td>months, counted as 30 days</td><td><code>1mo</code></td></tr>
+              <tr><td><code>y</code></td><td>years, counted as 365 days</td><td><code>1y</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Watch out for <code>m</code> against <code>mo</code>, because <code>1m</code> is one minute and <code>1mo</code> is a month. A unit the API doesn't recognise falls back to one day without telling you, so a typo won't error out, it'll just give you the wrong window.
+        </p>
+        <h3 id="calendar-windows">Calendar windows</h3>
+        <p>
+          <code>time_range</code> can also be a fixed window, which is handy for "show me last October" or for comparing the same week across years. Dates are read in IST and buckets are counted from the start of the window, so a <code>1d</code> interval on a calendar window gives you buckets that start at local midnight.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Window</th><th>Format</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td>Month</td><td><code>YYYY-MM</code></td><td><code>2026-10</code></td></tr>
+              <tr><td>ISO week, Monday to Sunday</td><td><code>YYYY-Www</code></td><td><code>2026-W42</code></td></tr>
+              <tr><td>Day</td><td><code>YYYY-MM-DD</code></td><td><code>2026-10-15</code></td></tr>
+              <tr><td>Span of days, both ends included</td><td><code>YYYY-MM-DD_YYYY-MM-DD</code></td><td><code>2026-10-01_2026-10-07</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          A window that doesn't parse, ends before it starts or begins before the year 2000 returns <code>400</code> with a <code>detail</code> that shows the accepted formats. Our archive starts in late 2025, when the first sensor went up, so anything earlier is simply empty.
+        </p>
+        <div class="code">
+          <div class="code-head">Request</div>
+          <pre><code>curl "https://api.breatheoss.app/historical-data/jammu_city/2026-W42/1h/pm2.5,pm10?format=csv" -o jammu-w42.csv</code></pre>
+        </div>
+      </section>
+
+      <section class="doc-section" id="method">
+        <div class="eyebrow">Reference</div>
+        <h2>How the numbers are made</h2>
+        <p>
+          You don't need any of this to use the API, but if you're doing research or comparing our numbers against another source, this is what happens between the sensor and the JSON. All of it is in the open in the <a href="https://github.com/breathe-OSS/api" target="_blank" rel="noopener">API repository</a> if you'd rather read the code.
+        </p>
+
+        <h3 id="method-aqi">From concentration to AQI</h3>
+        <p>
+          Each pollutant gets its own sub index, and that comes from finding which band of the official breakpoint table its concentration falls into, then interpolating in a straight line inside that band.
+        </p>
+        <div class="formula">
+          <math display="block">
+            <mi>I</mi><mo>=</mo>
+            <mfrac>
+              <mrow><msub><mi>I</mi><mi>hi</mi></msub><mo>−</mo><msub><mi>I</mi><mi>lo</mi></msub></mrow>
+              <mrow><msub><mi>C</mi><mi>hi</mi></msub><mo>−</mo><msub><mi>C</mi><mi>lo</mi></msub></mrow>
+            </mfrac>
+            <mo>×</mo><mo>(</mo><mi>C</mi><mo>−</mo><msub><mi>C</mi><mi>lo</mi></msub><mo>)</mo>
+            <mo>+</mo><msub><mi>I</mi><mi>lo</mi></msub>
+          </math>
+        </div>
+        <p>
+          Here <var>C</var> is the concentration, <var>C<sub>lo</sub></var> and <var>C<sub>hi</sub></var> are the edges of the band it falls in, and <var>I<sub>lo</sub></var> and <var>I<sub>hi</sub></var> are the index values at those edges. As a worked example, take 85.6 µg/m³ of PM2.5 on the US scale. That lands in the 55.5 to 125.4 band, which maps to 151 to 200, so the sub index is (200 - 151) / (125.4 - 55.5) × (85.6 - 55.5) + 151, which comes to about 172.
+        </p>
+        <p>
+          The overall AQI is the highest sub index, not an average, and the pollutant behind it is reported as <code>us_main_pollutant</code> (or <code>main_pollutant</code> for the Indian scale). A concentration above the top band is capped at 500. For the US scale, gases are converted from µg/m³ to ppb (or ppm for CO) at 25 °C first, and PM2.5 is truncated to one decimal before the lookup, the way the EPA does it. For the Indian scale, CO and methane are converted to mg/m³. Methane is reported but isn't part of either index.
+        </p>
+        <p>
+          The top level <code>aqi</code> and <code>us_aqi</code> are worked out from the current concentrations, so they react to a spike right away. The official definitions use a 24 hour average for particulates instead, and that version is in <code>averages_24h</code>, which is the one to use if you're comparing against government stations.
+        </p>
+
+        <h3 id="method-spikes">Spike protection</h3>
+        <p>
+          Low cost sensors on someone's balcony get things blown on them, sprayed near them and occasionally set on fire next to them, and one bad reading can drag a whole zone into "hazardous". So before a sensor's reading is used, it's checked against a few limits.
+        </p>
+        <ul>
+          <li>A reading above 600 µg/m³ of PM2.5 or 900 of PM10 is thrown out, since real air in these zones doesn't get there.</li>
+          <li>A PM2.5 jump of more than 200 µg/m³ inside an hour is treated as local interference and thrown out. From October to February the limit is 300, because cold nights with heating smoke and temperature inversions really do push the air up that fast.</li>
+          <li>A sensor that trips either check is left out of its zone for an hour (its <code>status</code> is <code>grace_period</code> during that time) so it can't flicker back in on the next refresh.</li>
+          <li>During Diwali (the dates are kept in the API's <code>festivals.json</code>), the jump check is turned off and the ceilings go up to the sensor's hardware limit of 999, because firecracker spikes on those nights are real and filtering them out would hide exactly what people want to see.</li>
+        </ul>
+        <p>
+          If every sensor in a zone is filtered or offline, the zone falls back to Open-Meteo for that refresh, as described in <a href="#concept-sources">ground sensors and satellite estimates</a>.
+        </p>
+
+        <h3 id="method-statuses">Node statuses</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><code>active</code></td><td>Reporting normally and counted in the zone average.</td></tr>
+              <tr><td><code>stale</code></td><td>Still answering, but its latest reading is more than an hour old.</td></tr>
+              <tr><td><code>offline</code></td><td>AirGradient didn't return the sensor at all.</td></tr>
+              <tr><td><code>no_data</code></td><td>The sensor answered without a PM2.5 value.</td></tr>
+              <tr><td><code>spike_detected</code></td><td>The reading tripped spike protection on this refresh.</td></tr>
+              <tr><td><code>grace_period</code></td><td>Tripped spike protection recently and is sitting out for the rest of the hour.</td></tr>
+              <tr><td><code>error</code></td><td>The request to AirGradient failed (a timeout or similar) on our end.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 id="method-warnings">Warnings</h3>
+        <p>
+          <code>warning</code> is <code>null</code> most of the time. When it isn't, it's plain text meant to be shown to people as is, and it comes from one or both of two places. The first is the sensors, when one or more of them were dropped and the zone is running on fewer sensors or on satellite data (like <code>Physical sensor temporarily offline. Using satellite-based estimates from Open-Meteo.</code>). The second is the zone as a whole, when its reading went past the spike ceilings or its AQI rose by more than 150 in the last hour (200 from October to February), which gets a general note that the reading may not reflect the whole region. If both apply, the sensor note comes first and the two are separated by a blank line.
+        </p>
+        <p>
+          The exact wording isn't part of the contract and may change, so check whether <code>warning</code> is <code>null</code> instead of matching on the text.
+        </p>
+      </section>
+
+      <section class="doc-section" id="scales">
+        <div class="eyebrow">Reference</div>
+        <h2>AQI scales</h2>
+        <p>
+          These are the bands each scale uses. The colours match the Breathe apps, so feel free to use them if you'd like your project to look consistent with ours.
+        </p>
+        <h3 id="scale-us">US EPA (<code>us_aqi</code>)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>AQI</th><th>Category</th><th>PM2.5, µg/m³</th></tr></thead>
+            <tbody>
+              <tr><td><span class="swatch" style="background: var(--us-aqi-good)"></span>0 to 50</td><td>Good</td><td>0 to 9.0</td></tr>
+              <tr><td><span class="swatch" style="background: var(--us-aqi-moderate)"></span>51 to 100</td><td>Moderate</td><td>9.1 to 35.4</td></tr>
+              <tr><td><span class="swatch" style="background: var(--us-aqi-sensitive)"></span>101 to 150</td><td>Unhealthy for sensitive groups</td><td>35.5 to 55.4</td></tr>
+              <tr><td><span class="swatch" style="background: var(--us-aqi-unhealthy)"></span>151 to 200</td><td>Unhealthy</td><td>55.5 to 125.4</td></tr>
+              <tr><td><span class="swatch" style="background: var(--us-aqi-very-unhealthy)"></span>201 to 300</td><td>Very unhealthy</td><td>125.5 to 225.4</td></tr>
+              <tr><td><span class="swatch" style="background: var(--us-aqi-hazardous)"></span>301 to 500</td><td>Hazardous</td><td>225.5 and up</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The PM2.5 bands are the 2024 revision, where "good" tops out at 9.0 instead of the older 12.0.</p>
+        <h3 id="scale-in">Indian CPCB (<code>aqi</code>)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>AQI</th><th>Category</th><th>PM2.5, µg/m³</th></tr></thead>
+            <tbody>
+              <tr><td><span class="swatch" style="background: var(--aqi-good)"></span>0 to 50</td><td>Good</td><td>0 to 30</td></tr>
+              <tr><td><span class="swatch" style="background: var(--aqi-satisfactory)"></span>51 to 100</td><td>Satisfactory</td><td>31 to 60</td></tr>
+              <tr><td><span class="swatch" style="background: var(--aqi-moderate)"></span>101 to 200</td><td>Moderate</td><td>61 to 90</td></tr>
+              <tr><td><span class="swatch" style="background: var(--aqi-poor)"></span>201 to 300</td><td>Poor</td><td>91 to 120</td></tr>
+              <tr><td><span class="swatch" style="background: var(--aqi-very-poor)"></span>301 to 400</td><td>Very poor</td><td>121 to 250</td></tr>
+              <tr><td><span class="swatch" style="background: var(--aqi-severe)"></span>401 to 500</td><td>Severe</td><td>251 and up</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Put the two tables side by side and the difference is pretty obvious, since 55 µg/m³ of PM2.5 is "unhealthy for sensitive groups" on the US scale but still "satisfactory" on the Indian one. The full tables for every pollutant are in <a href="https://github.com/breathe-OSS/api/blob/main/app/data/aqi_breakpoints.json" target="_blank" rel="noopener"><code>aqi_breakpoints.json</code></a> (Indian) and <a href="https://github.com/breathe-OSS/api/blob/main/app/core/conversions.py" target="_blank" rel="noopener"><code>conversions.py</code></a> (US).
+        </p>
+      </section>
+
+      <section class="doc-section" id="errors">
+        <div class="eyebrow">Reference</div>
+        <h2>Errors</h2>
+        <p>
+          Errors come back as JSON with a <code>detail</code> string, which is FastAPI's standard shape.
+        </p>
+        <div class="code">
+          <div class="code-head">404</div>
+          <pre><code class="lang-json">{ "detail": "zone not found" }</code></pre>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Code</th><th>When</th></tr></thead>
+            <tbody>
+              <tr><td><code>400</code></td><td>A calendar window in <code>time_range</code> that doesn't parse, runs backwards or starts before 2000.</td></tr>
+              <tr><td><code>404</code></td><td>An unknown zone on <code>/aqi/zone</code>, <code>/aqi/zones</code>, <code>/seasonal</code> or <code>/weather-history</code>, or a path that doesn't exist.</td></tr>
+              <tr><td><code>422</code></td><td>A missing or badly typed parameter, caught by FastAPI before our code runs.</td></tr>
+              <tr><td><code>500</code></td><td>Something broke on our side. A malformed rolling range like <code>xh</code> can also land here, which we know isn't ideal.</td></tr>
+              <tr><td><code>503</code></td><td><code>/health</code> only, when the database or cache is down.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          When an upstream source (AirGradient or Open-Meteo) has a bad moment, the live endpoints serve the last good reading for the zone instead of an error, so an older <code>timestamp_unix</code> is the thing to look out for there, not a status code.
+        </p>
+      </section>
+
+      <section class="doc-section" id="examples">
+        <div class="eyebrow">Reference</div>
+        <h2>Code examples</h2>
+        <h3 id="example-js">JavaScript</h3>
+        <p>Current US AQI for every zone, worst first. This runs as is in Node 18 or later, or anywhere else with <code>fetch</code> (just not from a browser on another domain, because of <a href="#browsers">CORS</a>).</p>
+        <div class="code">
+          <div class="code-head">JavaScript</div>
+          <pre><code>const res = await fetch('https://api.breatheoss.app/aqi/zones');
+const { zones } = await res.json();
+
+zones
+  .sort((a, b) =&gt; b.us_aqi - a.us_aqi)
+  .forEach((z) =&gt; {
+    console.log(`${z.zone_name.padEnd(12)} ${z.us_aqi}  (${z.source})`);
+  });</code></pre>
+        </div>
+        <h3 id="example-python">Python</h3>
+        <p>A month of hourly PM2.5 for Jammu as a pandas DataFrame, using the CSV output.</p>
+        <div class="code">
+          <div class="code-head">Python</div>
+          <pre><code>import pandas as pd
+
+url = "https://api.breatheoss.app/historical-data/jammu_city/2026-10/1h/pm2.5,pm10?format=csv"
+df = pd.read_csv(url)
+df["time"] = pd.to_datetime(df["ts"], unit="s", utc=True).dt.tz_convert("Asia/Kolkata")
+
+print(df.set_index("time")["pm2_5"].resample("1D").mean())</code></pre>
+        </div>
+        <h3 id="example-shell">Shell</h3>
+        <p>Just the number, for a status bar or a cron job.</p>
+        <div class="code">
+          <div class="code-head">Shell</div>
+          <pre><code>curl -s https://api.breatheoss.app/aqi/zone/srinagar | jq '.us_aqi'</code></pre>
+        </div>
+      </section>
+
+      <section class="doc-section" id="source">
+        <div class="eyebrow">Reference</div>
+        <h2>Source and help</h2>
+        <p>
+          The API is MIT licensed and lives at <a href="https://github.com/breathe-OSS/api" target="_blank" rel="noopener">breathe-OSS/api</a>, and its README covers running it yourself (you'll need Python 3.10 or later and a Redis server). If something on this page doesn't match what the API actually does, that's a bug in one of the two, so please open an issue there.
+        </p>
+        <p>
+          For questions, or to tell us what you've built (we'd genuinely love to see it), the quickest place is our <a href="https://discord.breatheoss.app" target="_blank" rel="noopener">Discord</a>, or you can write to <a href="mailto:contact@breatheoss.app">contact@breatheoss.app</a>. If you use the data in research or in something public, a link back to <a href="https://breatheoss.app" target="_blank" rel="noopener">breatheoss.app</a> is appreciated, and it helps more people find the network and maybe host a sensor of their own.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-tonal" href="https://github.com/breathe-OSS/api" target="_blank" rel="noopener">API on GitHub</a>
+          <a class="btn-tonal" href="https://about.breatheoss.app/#help" target="_blank" rel="noopener">Host a sensor</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/images/breathelogo3d.png" width="435" height="376" alt="" class="footer-logo" loading="lazy" />
+        <div>
+          <div class="footer-name">BreatheOSS</div>
+          <p>Free and open air quality data for Jammu &amp; Kashmir and Ladakh.</p>
+          <a href="mailto:contact@breatheoss.app">contact@breatheoss.app</a>
+        </div>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <div>
+          <h3>Use it</h3>
+          <a href="https://breatheoss.app" target="_blank" rel="noopener">Web app</a>
+          <a href="https://play.google.com/store/apps/details?id=com.sidharthify.breathe" target="_blank" rel="noopener">Android</a>
+          <a href="https://apps.apple.com/us/app/breathe-aqi-for-jk-ladakh/id6761560112" target="_blank" rel="noopener">iOS</a>
+          <a href="https://api.breatheoss.app/docs" target="_blank" rel="noopener">Interactive API</a>
+        </div>
+        <div>
+          <h3>Project</h3>
+          <a href="https://about.breatheoss.app" target="_blank" rel="noopener">About</a>
+          <a href="https://github.com/breathe-OSS" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://blogs.breatheoss.app" target="_blank" rel="noopener">Blog</a>
+          <a href="https://status.breatheoss.app" target="_blank" rel="noopener">Status</a>
+        </div>
+        <div>
+          <h3>Community</h3>
+          <a href="https://discord.breatheoss.app" target="_blank" rel="noopener">Discord</a>
+          <a href="https://www.instagram.com/breatheoss/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://breatheoss.app/privacy/" target="_blank" rel="noopener">Privacy</a>
+        </div>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="main.js?v=2026111204"></script>
+</body>
+</html>

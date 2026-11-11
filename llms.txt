@@ -1,0 +1,25 @@
+# Breathe API docs
+
+> Documentation for the free, public Breathe API by BreatheOSS. It serves live AQI, ground sensor readings, history, weather and seasonal normals for Jammu & Kashmir and Ladakh. No key or sign-up is needed.
+
+- Base URL: https://api.breatheoss.app
+- Full docs: https://docs.breatheoss.app
+- Interactive reference (generated from the code): https://api.breatheoss.app/docs
+- Source: https://github.com/breathe-OSS/api (MIT)
+
+## Endpoints
+
+- GET /zones: every zone with its ID, coordinates and provider (airgradient for ground sensors, openmeteo for satellite estimates)
+- GET /aqi/zone/{zone_id}: current reading for one zone, on both the US EPA (us_aqi) and Indian CPCB (aqi) scales, with 24 hour history, every sensor and the weather
+- GET /aqi/zones?ids=a,b: the same for many zones in one request, or every zone without ids
+- GET /sensor-info: hardware, location and install date of every physical sensor
+- GET /historical-data/{location}/{time_range}/{interval}/{metrics}?format=json|csv: archived sensor readings, streamed
+- GET /weather-history/{zone_id}/{time_range}/{interval}: weather condition and precipitation per bucket, aligned with historical-data
+- GET /seasonal/{zone_id}: twelve monthly normals from reanalysis, with sensor averages where there's enough data
+- GET /health: database and cache status
+
+## Notes
+
+- Timestamps are Unix seconds. Calendar windows (2026-10, 2026-W42, 2026-10-15, 2026-10-01_2026-10-07) are read in IST.
+- In this API, "aqi" on its own is the Indian CPCB index. The US EPA index is "us_aqi".
+- Zones refresh every 15 minutes. CORS is limited to BreatheOSS sites, so browser apps on other domains need a proxy.
