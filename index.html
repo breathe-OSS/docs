@@ -188,6 +188,19 @@
           Zone IDs are meant to stay the same once a zone is live, but new zones do get added as people host sensors, so read the list from <code>/zones</code> instead of hardcoding it.
         </p>
 
+        <h3 id="concept-places">One zone per sensor</h3>
+        <p>
+          Since November 2026 the web app treats every sensor as a place of its own, the way AirGradient and AQI.in do, and the API can serve things that way too. Ask for <code>/zones?layout=sensors</code> and you get one entry per sensor (with an ID like <code>gandhi-nagar</code> or <code>kanipora</code>) plus one entry for every area that has no sensor yet (those keep their old IDs, like <code>anantnag_city</code>). Each entry says which <code>district</code> it's in and which <code>division</code> that district belongs to (<code>Jammu</code>, <code>Kashmir</code> or <code>Ladakh</code>), so you can group them however you like.
+        </p>
+        <p>
+          A sensor ID works everywhere a zone ID does: <code>/aqi/zone/{id}</code>, <code>/aqi/zones</code>, <code>/historical-data</code>, <code>/weather-history</code> and <code>/seasonal</code> (which uses the district's climatology). The old district zones and their averaged readings are still served exactly as before, because the current Android and iOS releases depend on them, but new code should use the per sensor layout.
+        </p>
+
+        <h3 id="concept-raw">Calibrated and raw readings</h3>
+        <p>
+          AirGradient sends two versions of every reading, its corrected value and what the sensor actually measured. The corrected one is what the API has always served, and it's still the default everywhere. Sensor payloads now carry the uncorrected readings too, in a <code>raw</code> object, and history can return them as their own metrics (<code>pm2.5_raw</code>, <code>pm10_raw</code>, <code>temp_raw</code>, <code>humidity_raw</code>). The correction mostly lowers PM2.5 (more so in humid air), and the raw temperature and humidity are read inside the sensor's case, so raw numbers usually run higher for PM and warmer in the afternoon. Raw values only exist from the day the API started keeping them, and estimate zones never have any.
+        </p>
+
         <h3 id="concept-sources">Ground sensors and satellite estimates</h3>
         <p>
           Every zone has a <code>provider</code>, which is either <code>airgradient</code> or <code>openmeteo</code>. An <code>airgradient</code> zone has real AirGradient sensors on rooftops and balconies measuring PM2.5 and PM10 every few minutes, and these are what we'd recommend trusting first. An <code>openmeteo</code> zone has no sensor yet, so its numbers come from the <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener">Open-Meteo air quality API</a>, which is a model built on satellite data and not a measurement of the street you're standing on.
@@ -242,7 +255,16 @@
         <div class="endpoint" id="ep-zones">
           <div class="endpoint-head"><span class="method">GET</span><span class="endpoint-path">/zones</span></div>
           <h3>List zones</h3>
-          <p>Every zone the API knows about, with enough detail to put it on a map. It takes no parameters and changes only when a zone is added or moves from satellite to sensors.</p>
+          <p>Every zone the API knows about, with enough detail to put it on a map. It changes only when a zone is added or moves from satellite to sensors.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Query</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>layout</code></td><td><span class="type">string, optional</span></td><td class="wrap"><code>zones</code> (the default) for the old district zones, or <code>sensors</code> for one entry per sensor plus one per estimate area. See <a href="#concept-places">one zone per sensor</a>.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>With <code>layout=sensors</code>, every entry also has <code>kind</code> (<code>sensor</code> or <code>estimate</code>), <code>district</code>, <code>division</code> and <code>legacy_zone</code> (the old district zone it used to be averaged into, handy for moving saved IDs over). A sensor's <code>lat</code> and <code>lon</code> are where the sensor actually sits.</p>
           <div class="table-wrap">
             <table>
               <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
@@ -285,6 +307,9 @@
           <h3>Current air in one zone</h3>
           <p>
             This is the main endpoint, and it's what every Breathe app opens with. It returns the latest reading for a zone on both AQI scales, the concentrations behind it, the last 24 hours, every node in the zone and the current weather. An unknown <code>zone_id</code> returns <code>404</code>.
+          </p>
+          <p>
+            Pass a sensor ID (from <code>/zones?layout=sensors</code>) and you get that one sensor instead, with no <code>nodes</code> and a few extra fields: <code>kind</code>, <code>district</code>, <code>division</code>, <code>location_id</code>, <code>sensor_status</code> (<code>active</code>, <code>offline</code>, <code>stale</code>, <code>spike_detected</code> and so on), <code>readings</code> (the calibrated <code>pm2_5</code>, <code>pm10</code>, <code>temp</code> and <code>humidity</code>), <code>raw</code> (the same four uncorrected, plus <code>aqi</code>, <code>us_aqi</code> and the main pollutants worked out from them, or <code>null</code> when there's nothing raw to show), <code>raw_available</code> and <code>averages_24h_raw</code>. Its <code>timestamp_unix</code> is when the sensor took the reading, not when the server built the response. Each history point also has <code>pm2_5_raw</code>, <code>pm10_raw</code>, <code>temp_raw</code>, <code>humidity_raw</code>, <code>aqi_raw</code> and <code>us_aqi_raw</code> (all <code>null</code> before raw storage started). When the sensor is down, the payload falls back to Open-Meteo at the sensor's own location, the same way a zone does.
           </p>
           <h4>Top level</h4>
           <div class="table-wrap">
@@ -444,7 +469,8 @@
             <table>
               <thead><tr><th>Query</th><th>Type</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td><code>ids</code></td><td><span class="type">string, optional</span></td><td class="wrap">Comma separated zone IDs, like <code>srinagar,leh,jammu_city</code>. Leave it out to get every zone. Duplicates are dropped and the order you asked in is kept.</td></tr>
+                <tr><td><code>ids</code></td><td><span class="type">string, optional</span></td><td class="wrap">Comma separated zone or sensor IDs, like <code>srinagar,leh,gandhi-nagar</code>. Leave it out to get every zone. Duplicates are dropped and the order you asked in is kept.</td></tr>
+                <tr><td><code>layout</code></td><td><span class="type">string, optional</span></td><td class="wrap">Only used when <code>ids</code> is left out. <code>sensors</code> returns every sensor and estimate zone instead of the old district zones.</td></tr>
               </tbody>
             </table>
           </div>
@@ -498,10 +524,10 @@
             <table>
               <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td><code>location</code></td><td class="wrap">A zone ID, a single sensor as <code>&lt;zone_id&gt;_&lt;sensor name&gt;</code> (like <code>srinagar_Kanipora</code>, URL encoded if the name has spaces or commas), or <code>all</code> for every zone and sensor at once.</td></tr>
+                <tr><td><code>location</code></td><td class="wrap">A zone ID, a sensor ID (like <code>kanipora</code>), a single sensor the old way as <code>&lt;zone_id&gt;_&lt;sensor name&gt;</code> (like <code>srinagar_Kanipora</code>, URL encoded if the name has spaces or commas), or <code>all</code> for every zone and sensor at once.</td></tr>
                 <tr><td><code>time_range</code></td><td class="wrap">How far back to go, either rolling (<code>24h</code>, <code>7d</code>, <code>1mo</code>) or a fixed calendar window (<code>2026-10</code>, <code>2026-W42</code>). See <a href="#time-ranges">time ranges</a>.</td></tr>
                 <tr><td><code>interval</code></td><td class="wrap">Bucket size, like <code>15m</code>, <code>1h</code> or <code>1d</code>.</td></tr>
-                <tr><td><code>metrics</code></td><td class="wrap">Comma separated, any of <code>pm2.5</code>, <code>pm10</code>, <code>temp</code>, <code>humidity</code>. Unknown names are dropped, and if none are left you get <code>pm2.5,pm10</code>.</td></tr>
+                <tr><td><code>metrics</code></td><td class="wrap">Comma separated, any of <code>pm2.5</code>, <code>pm10</code>, <code>temp</code>, <code>humidity</code>, their uncorrected versions <code>pm2.5_raw</code>, <code>pm10_raw</code>, <code>temp_raw</code>, <code>humidity_raw</code>, and <code>us_aqi</code> or <code>us_aqi_raw</code> (the US AQI of each bucket's mean PM2.5 and PM10). Unknown names are dropped, and if none are left you get <code>pm2.5,pm10</code>. <code>stats</code> carries <code>max_</code>, <code>min_</code> and <code>avg_</code> for every metric you asked for, as well as the PM2.5 and PM10 ones it always had.</td></tr>
                 <tr><td><code>format</code> (query)</td><td class="wrap"><code>json</code> (default) or <code>csv</code>.</td></tr>
               </tbody>
             </table>

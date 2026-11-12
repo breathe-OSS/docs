@@ -9,11 +9,11 @@
 
 ## Endpoints
 
-- GET /zones: every zone with its ID, coordinates and provider (airgradient for ground sensors, openmeteo for satellite estimates)
-- GET /aqi/zone/{zone_id}: current reading for one zone, on both the US EPA (us_aqi) and Indian CPCB (aqi) scales, with 24 hour history, every sensor and the weather
+- GET /zones: every zone with its ID, coordinates and provider (airgradient for ground sensors, openmeteo for satellite estimates). ?layout=sensors lists one entry per sensor plus one per estimate area, each with kind, district and division
+- GET /aqi/zone/{zone_id}: current reading for one zone or one sensor, on both the US EPA (us_aqi) and Indian CPCB (aqi) scales, with 24 hour history, every sensor and the weather. Sensor IDs also return a raw object with the uncorrected readings
 - GET /aqi/zones?ids=a,b: the same for many zones in one request, or every zone without ids
 - GET /sensor-info: hardware, location and install date of every physical sensor
-- GET /historical-data/{location}/{time_range}/{interval}/{metrics}?format=json|csv: archived sensor readings, streamed
+- GET /historical-data/{location}/{time_range}/{interval}/{metrics}?format=json|csv: archived sensor readings, streamed. Metrics include the raw versions (pm2.5_raw and so on) and a per bucket us_aqi or us_aqi_raw
 - GET /weather-history/{zone_id}/{time_range}/{interval}: weather condition and precipitation per bucket, aligned with historical-data
 - GET /seasonal/{zone_id}: twelve monthly normals from reanalysis, with sensor averages where there's enough data
 - GET /health: database and cache status
