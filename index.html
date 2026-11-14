@@ -529,6 +529,8 @@
                 <tr><td><code>interval</code></td><td class="wrap">Bucket size, like <code>15m</code>, <code>1h</code> or <code>1d</code>.</td></tr>
                 <tr><td><code>metrics</code></td><td class="wrap">Comma separated, any of <code>pm2.5</code>, <code>pm10</code>, <code>temp</code>, <code>humidity</code>, their uncorrected versions <code>pm2.5_raw</code>, <code>pm10_raw</code>, <code>temp_raw</code>, <code>humidity_raw</code>, and <code>us_aqi</code> or <code>us_aqi_raw</code> (the US AQI of each bucket's mean PM2.5 and PM10). Unknown names are dropped, and if none are left you get <code>pm2.5,pm10</code>. <code>stats</code> carries <code>max_</code>, <code>min_</code> and <code>avg_</code> for every metric you asked for, as well as the PM2.5 and PM10 ones it always had.</td></tr>
                 <tr><td><code>format</code> (query)</td><td class="wrap"><code>json</code> (default) or <code>csv</code>.</td></tr>
+                <tr><td><code>limit</code> (query)</td><td class="wrap">Optional, 1 to 10,000. Returns one page of at most this many buckets instead of the whole window, as a normal (not streamed) response. The JSON then has <code>next_cursor</code>, and the CSV has an <code>X-Next-Cursor</code> header. Both are missing or <code>null</code> on the last page, and <code>stats</code> covers only that page.</td></tr>
+                <tr><td><code>cursor</code> (query)</td><td class="wrap">With <code>limit</code>, the <code>next_cursor</code> from the page before. The page starts with the first bucket after it. Keep <code>time_range</code>, <code>interval</code> and <code>metrics</code> the same between pages.</td></tr>
               </tbody>
             </table>
           </div>
@@ -592,6 +594,9 @@
           </div>
           <p>
             <code>interval</code> is the bucket size in seconds. Buckets start at <code>anchor + n * interval</code>, where <code>anchor</code> is <code>0</code> for rolling ranges and the start of the window for calendar ones, which is how you match a weather point to a history row. <code>condition</code> uses the same values as the live <a href="#ep-zone">weather</a> object (except <code>smog</code>, which needs a PM2.5 reading), and <code>precipitation</code> is the total for the bucket in mm. An unknown zone returns <code>404</code>.
+          </p>
+          <p>
+            For a long window, page through it with <code>?limit=500</code> and then <code>?limit=500&amp;cursor=</code> the <code>next_cursor</code> of each response, until <code>next_cursor</code> comes back <code>null</code>. It works the same way as <a href="#ep-history"><code>/historical-data</code></a>, and without <code>limit</code> you get every point at once, as before.
           </p>
         </div>
 
